@@ -1,6 +1,6 @@
 ﻿namespace Chess_NEA
 {
-    partial class Form1
+    partial class MainView
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,11 +29,31 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            FormTimer = new System.Windows.Forms.Timer(components);
+            SuspendLayout();
+            // 
+            // FormTimer
+            // 
+            FormTimer.Tick += FormTimerTick;
+            // 
+            // MainView
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Text = "Form1";
+            BackColor = SystemColors.ControlDarkDark;
+            ClientSize = new Size(1184, 961);
+            DoubleBuffered = true;
+            Name = "MainView";
+            Text = "Chess";
+            Paint += FormPaintEvent;
+            MouseDown += FormMouseDown;
+            MouseMove += FormMouseMove;
+            MouseUp += FormMouseUp;
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer FormTimer;
     }
 }

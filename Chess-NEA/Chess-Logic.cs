@@ -17,8 +17,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     public class ChessBoard
     {
         private Square[,] boardGrid = new Square[8, 8];
@@ -83,8 +81,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     public class Piece
     {
         public string PieceType = "";
@@ -101,8 +97,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     class King : Piece
     {
         // HasMoved is stored so 
@@ -115,8 +109,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     class Queen : Piece
     {
         public Queen(bool isWhite) : base(isWhite)
@@ -124,8 +116,6 @@ namespace Chess_NEA
             this.PieceType = "Queen";
         }
     }
-
-
 
     class Rook : Piece
     {
@@ -137,8 +127,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     class Bishop : Piece
     {
         public Bishop(bool isWhite) : base(isWhite)
@@ -147,8 +135,6 @@ namespace Chess_NEA
         }
     }
 
-
-
     class Knight : Piece
     {
         public Knight(bool isWhite) : base(isWhite)
@@ -156,8 +142,6 @@ namespace Chess_NEA
             this.PieceType = "Knight";
         }
     }
-
-
 
     class Pawn : Piece
     {
@@ -171,5 +155,4 @@ namespace Chess_NEA
             this.CanBeTakenByEnPassant = false;
         }
     }
-
 }

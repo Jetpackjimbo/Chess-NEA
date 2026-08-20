@@ -15,7 +15,7 @@ namespace Chess_NEA
             ChessBoard CurrentBoard = new ChessBoard();
             CurrentBoard.initiateNewBoard();
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new MainView());
         }
     }
 }
