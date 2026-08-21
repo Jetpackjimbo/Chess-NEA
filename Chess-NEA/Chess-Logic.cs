@@ -101,7 +101,7 @@ namespace Chess_NEA
 
     public abstract class Piece
     {
-        protected string? PieceType = "blank";
+        protected string PieceType = "blank";
 
         public bool IsWhite { get; }
 
