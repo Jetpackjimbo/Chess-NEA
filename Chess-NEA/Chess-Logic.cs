@@ -4,48 +4,66 @@ using System.Text;
 
 namespace Chess_NEA
 {
-    public class Square
+    public class Tile
     {
-        char File { get; }
+        int File { get; }
         int Rank { get; }
         public Piece? CurrentPiece { get; set; }
 
-        public Square(char file, int rank)
+        public Tile(int file, int rank)
         {
             this.File = file;
             this.Rank = rank;
+        }
+
+        public string GetTileID()
+        {
+            return Convert.ToString(File) + Convert.ToString(Rank);
+        }
+
+        public bool ContainsPiece()
+        {
+            if (CurrentPiece == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 
     public class ChessBoard
     {
-        private Square[,] boardGrid = new Square[8, 8];
+        private Tile[,] boardGrid = new Tile[8, 8];
 
         public ChessBoard()
         {
-            // ChessBoard constructor adds Squares to a 2D array
-            char file;
+            // ChessBoard constructor adds Tiles to a 2D array
+            int file;
             int rank;
             for (int fileIndex = 0; fileIndex < 8; fileIndex++)
             {
-                file = (char)('a' + fileIndex);
+                file = (1 + fileIndex);
                 for (int rankIndex = 0; rankIndex < 8; rankIndex++)
                 {
                     rank = (1 + rankIndex);
-                    boardGrid[fileIndex, rankIndex] = new Square(file, rank);
+                    boardGrid[fileIndex, rankIndex] = new Tile(file, rank);
                 }
             }
         }
 
-        public Square getSquare(char file, int rank)
+        public Tile GetTile(string TileID)
         {
-            // this method takes in the file and rank and returns the square in that location
-            int fileIndex = (int)(file - 'a');
-            int rankIndex = (rank - 1);
+            // this method takes in the file and rank and returns the tile in that location
+            int fileIndex = TileID[0] - 49;
+            int rankIndex = TileID[1] - 49;
+
             return boardGrid[fileIndex, rankIndex];
         }
 
-        public void initiateNewBoard()
+        public void InitializeNewBoard()
         {
             // adding the backrank white pieces
             boardGrid[0, 0].CurrentPiece = new Rook(true, false);
@@ -60,7 +78,7 @@ namespace Chess_NEA
             // adding white's pawns
             for (int i = 0; i < 8; i++)
             {
-                boardGrid[i, 1].CurrentPiece = new Pawn(true, false);
+                boardGrid[i, 1].CurrentPiece = new Pawn(true);
             }
 
             // adding the backrank black pieces
@@ -76,14 +94,15 @@ namespace Chess_NEA
             // adding black's pawns
             for (int i = 0; i < 8; i++)
             {
-                boardGrid[i, 6].CurrentPiece = new Pawn(false, false);
+                boardGrid[i, 6].CurrentPiece = new Pawn(false);
             }
         }
     }
 
-    public class Piece
+    public abstract class Piece
     {
-        public string PieceType = "";
+        protected string? PieceType = "blank";
+
         public bool IsWhite { get; }
 
         public Piece(bool isWhite)
@@ -91,10 +110,12 @@ namespace Chess_NEA
             this.IsWhite = isWhite;
         }
 
-        public string getPieceType()
+        public virtual string GetPieceType()
         {
             return PieceType;
         }
+
+        public abstract string GetPieceTypeAbbreviated();
     }
 
     class King : Piece
@@ -107,6 +128,15 @@ namespace Chess_NEA
             this.PieceType = "King";
             this.HasMoved = hasMoved;
         }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wk";
+            }
+            return "bk";
+        }
     }
 
     class Queen : Piece
@@ -114,6 +144,15 @@ namespace Chess_NEA
         public Queen(bool isWhite) : base(isWhite)
         {
             this.PieceType = "Queen";
+        }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wq";
+            }
+            return "bq";
         }
     }
 
@@ -125,6 +164,15 @@ namespace Chess_NEA
             this.PieceType = "Rook";
             this.HasMoved = hasMoved;
         }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wr";
+            }
+            return "br";
+        }
     }
 
     class Bishop : Piece
@@ -132,6 +180,15 @@ namespace Chess_NEA
         public Bishop(bool isWhite) : base(isWhite)
         {
             this.PieceType = "Bishop";
+        }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wb";
+            }
+            return "bb";
         }
     }
 
@@ -141,18 +198,35 @@ namespace Chess_NEA
         {
             this.PieceType = "Knight";
         }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wn";
+            }
+            return "bn";
+        }
     }
 
     class Pawn : Piece
     {
-        bool HasMoved { get; set; }
+
         bool CanBeTakenByEnPassant { get; set; }
 
-        public Pawn(bool isWhite, bool hasMoved) : base(isWhite)
+        public Pawn(bool isWhite) : base(isWhite)
         {
             this.PieceType = "Pawn";
-            this.HasMoved = hasMoved;
             this.CanBeTakenByEnPassant = false;
+        }
+
+        public override string GetPieceTypeAbbreviated()
+        {
+            if (IsWhite)
+            {
+                return "wp";
+            }
+            return "bp";
         }
     }
 }

@@ -2,18 +2,20 @@ using System.Diagnostics;
 
 namespace Chess_NEA
 {
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
+
+        
+
         static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ChessBoard CurrentBoard = new ChessBoard();
-            CurrentBoard.initiateNewBoard();
+     //       Debug.WriteLine(CurrentBoard.GetTile("88").GetTileID());
             ApplicationConfiguration.Initialize();
             Application.Run(new MainView());
         }
