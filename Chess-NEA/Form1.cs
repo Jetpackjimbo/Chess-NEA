@@ -55,9 +55,11 @@ namespace Chess_NEA
                 for (int rankIndex = 0; rankIndex < 8; rankIndex++)
                 {
                     BoardPixelPositions[fileIndex, rankIndex] = new Point(50 + (fileIndex * 100), 750 - (rankIndex * 100));
+
                 }
             }
         }
+
 
         private void FormMouseDown(object sender, MouseEventArgs e)
         {
@@ -90,9 +92,9 @@ namespace Chess_NEA
                 for (int rankIndex = 0; rankIndex < 8; rankIndex++)
                 {
                     string TileID = Convert.ToString(fileIndex+1) + Convert.ToString(rankIndex+1);
-                    if (CurrentBoard.GetTile(TileID).ContainsPiece())
+                    if (CurrentBoard.GetTileWithID(TileID).ContainsPiece())
                     {
-                        string pieceAbrriviation = CurrentBoard.GetTile(TileID).CurrentPiece.GetPieceTypeAbbreviated();
+                        string pieceAbrriviation = CurrentBoard.GetTileWithID(TileID).CurrentPiece.GetPieceTypeAbbreviated();
                         string filePath = (@"assets\" + pieceAbrriviation + ".png");
                         e.Graphics.DrawImage(Image.FromFile(filePath), BoardPixelPositions[fileIndex,rankIndex]);
                     }
