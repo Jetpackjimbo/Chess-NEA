@@ -34,6 +34,8 @@
             // 
             // FormTimer
             // 
+            FormTimer.Enabled = true;
+            FormTimer.Interval = 10;
             FormTimer.Tick += FormTimerTick;
             // 
             // MainView

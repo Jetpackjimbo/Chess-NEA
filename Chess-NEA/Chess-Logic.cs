@@ -38,7 +38,7 @@ namespace Chess_NEA
     public class ChessBoard
     {
         private Tile[,] BoardGrid = new Tile[8, 8];
-        private bool IsWhitesTurn;
+        public bool IsWhitesTurn;
 
         public ChessBoard()
         {
@@ -54,8 +54,8 @@ namespace Chess_NEA
                     BoardGrid[fileIndex, rankIndex] = new Tile(file, rank);
                 }
             }
-
             IsWhitesTurn = true;
+            SetUpNewBoard();
         }
 
         public Tile GetTileWithID(string TileID)
@@ -67,12 +67,12 @@ namespace Chess_NEA
             return BoardGrid[fileIndex, rankIndex];
         }
 
-        public Tile GetTile(int file, int rank)
+        public Tile GetTile(int fileIndex, int rankIndex)
         {
-            return BoardGrid[file + 1, rank + 1];
+            return BoardGrid[fileIndex, rankIndex];
         }
 
-        public void InitializeNewBoard()
+        public void SetUpNewBoard()
         {
             // adding the backrank white pieces
             BoardGrid[0, 0].CurrentPiece = new Rook(true, false);
@@ -108,50 +108,10 @@ namespace Chess_NEA
         }
     }
 
-    public class Move
+    public struct Move
     {
-        private ChessBoard BoardBeforeMove;
-        private string StartingTileID;
-        private string DestinationTileID;
-        private bool WhitePlayersMove;
-        private Piece PieceMoving;
-        private bool IsCapture;
-        private bool IsCheck;
-        private bool IsCheckmate;
-        public bool IsLegalMove { get; }
-
-        public Move(ChessBoard boardBeforeMove, string startingTileID, string destinationTileID, bool whitePlayersMove)
-        {
-            BoardBeforeMove = boardBeforeMove;
-            StartingTileID = startingTileID;
-            DestinationTileID = destinationTileID;
-            WhitePlayersMove = whitePlayersMove;
-            PieceMoving = BoardBeforeMove.GetTileWithID(startingTileID).CurrentPiece;
-            IsCapture = TestIfCapture();
-            //IsCheck = 
-            //IsCheckmate =
-            IsLegalMove = LegalityCheck();
-        }
-
-        private bool TestIfCapture()
-        {
-            // this just checks if there is a piece on the destination tile, validity checks will be done later
-            if (BoardBeforeMove.GetTileWithID(DestinationTileID).ContainsPiece()) return true; else return false;
-        }
-
-        private bool LegalityCheck()
-        {
-            if (IsCapture)
-            {
-                // a player can't take one of their own pieces, so the move is considered illegal if that occurs
-                if (BoardBeforeMove.GetTileWithID(DestinationTileID).CurrentPiece.IsWhite == WhitePlayersMove) return false;
-            }
-
-            // add other legality checks
-
-            return true;
-        }
-
+        public readonly string StartingTile;
+        public readonly string DestinationTile;
     }
 
     public class Direction
